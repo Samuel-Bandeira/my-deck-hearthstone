@@ -57,7 +57,9 @@ export default function AppLayout() {
       return;
     }
     if (deck.filter((id) => id === cardId).length >= MAX_COPIES_PER_CARD) {
-      showNotification(`Já existem ${MAX_COPIES_PER_CARD} cópias desta carta no baralho.`);
+      showNotification(
+        `Já existem ${MAX_COPIES_PER_CARD} cópias desta carta no baralho.`,
+      );
       return;
     }
     setDeck((prev) => [...prev, cardId]);
@@ -134,7 +136,7 @@ export default function AppLayout() {
           </NavLink>
 
           <NavLink
-            to="/baralho"
+            to="/deck"
             className={({ isActive }) =>
               `flex items-center gap-2 px-4 py-2 rounded text-sm font-bold uppercase tracking-widest transition-all ${
                 isActive

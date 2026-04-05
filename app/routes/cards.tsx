@@ -5,8 +5,9 @@ import CardDialog, {
   CLASSES,
 } from "../components/card-dialog";
 import ConfirmDialog from "../components/confirm-dialog";
+import Tooltip from "../components/tooltip";
 import { useAppContext } from "./layout";
-import type { Route } from "./+types/cartas";
+import type { Route } from "./+types/cards";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Cartas — HearthStone Card Manager" }];
@@ -30,7 +31,11 @@ export default function CartasPage() {
 
   const filtered = cards.filter((c) => {
     const q = search.toLowerCase();
-    if (q && !c.name.toLowerCase().includes(q) && !c.id.toLowerCase().includes(q))
+    if (
+      q &&
+      !c.name.toLowerCase().includes(q) &&
+      !c.id.toLowerCase().includes(q)
+    )
       return false;
     if (filterClass && c.cardClass !== filterClass) return false;
     if (filterType && c.cardType !== filterType) return false;
@@ -39,7 +44,10 @@ export default function CartasPage() {
 
   const totalPages = Math.ceil(filtered.length / PER_PAGE) || 1;
   const currentPage = Math.min(page, totalPages);
-  const rows = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+  const rows = filtered.slice(
+    (currentPage - 1) * PER_PAGE,
+    currentPage * PER_PAGE,
+  );
 
   const pages: (number | "...")[] = [];
   for (let i = 1; i <= totalPages; i++) {
@@ -60,7 +68,9 @@ export default function CartasPage() {
               Filtros
             </h2>
           </div>
-          <p className="text-xs text-on-surface-variant italic">Refinar grimório</p>
+          <p className="text-xs text-on-surface-variant italic">
+            Refinar grimório
+          </p>
         </div>
 
         <div className="space-y-6">
@@ -94,7 +104,9 @@ export default function CartasPage() {
               >
                 <option value="">Todas</option>
                 {CLASSES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
               {filterClass && (
@@ -102,7 +114,9 @@ export default function CartasPage() {
                   onClick={() => setFilterClass("")}
                   className="absolute right-0 text-on-surface-variant/50 hover:text-primary transition-colors"
                 >
-                  <span className="material-symbols-outlined text-base">close</span>
+                  <span className="material-symbols-outlined text-base">
+                    close
+                  </span>
                 </button>
               )}
             </div>
@@ -127,7 +141,9 @@ export default function CartasPage() {
                   onClick={() => setFilterType("")}
                   className="absolute right-0 text-on-surface-variant/50 hover:text-primary transition-colors"
                 >
-                  <span className="material-symbols-outlined text-base">close</span>
+                  <span className="material-symbols-outlined text-base">
+                    close
+                  </span>
                 </button>
               )}
             </div>
@@ -135,7 +151,11 @@ export default function CartasPage() {
         </div>
 
         <button
-          onClick={() => { setSearch(""); setFilterClass(""); setFilterType(""); }}
+          onClick={() => {
+            setSearch("");
+            setFilterClass("");
+            setFilterType("");
+          }}
           className="mt-auto border border-outline-variant/30 text-on-surface-variant text-[10px] uppercase font-bold py-3 hover:bg-white/5 hover:text-primary transition-all tracking-[0.2em]"
         >
           Limpar Filtros
@@ -145,7 +165,10 @@ export default function CartasPage() {
       <main className="ml-70 flex-1 p-8">
         <div className="flex justify-end mb-8">
           <button
-            onClick={() => { setEditingCard(null); setDialogOpen(true); }}
+            onClick={() => {
+              setEditingCard(null);
+              setDialogOpen(true);
+            }}
             className="gold-gradient-btn text-on-primary-fixed font-bold py-2 px-6 rounded-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined">add</span>Nova Carta
@@ -175,7 +198,9 @@ export default function CartasPage() {
                   Magias
                 </p>
                 <h3 className="text-4xl font-headline text-secondary">
-                  {cards.filter((c) => c.cardType === "Magia").length.toLocaleString("pt-BR")}
+                  {cards
+                    .filter((c) => c.cardType === "Magia")
+                    .length.toLocaleString("pt-BR")}
                 </h3>
               </div>
               <span className="material-symbols-outlined text-secondary/30 text-4xl group-hover:text-secondary transition-colors">
@@ -190,7 +215,9 @@ export default function CartasPage() {
                   Criaturas
                 </p>
                 <h3 className="text-4xl font-headline text-tertiary">
-                  {cards.filter((c) => c.cardType === "Criatura").length.toLocaleString("pt-BR")}
+                  {cards
+                    .filter((c) => c.cardType === "Criatura")
+                    .length.toLocaleString("pt-BR")}
                 </h3>
               </div>
               <span className="material-symbols-outlined text-tertiary/30 text-4xl group-hover:text-tertiary transition-colors">
@@ -209,7 +236,9 @@ export default function CartasPage() {
               >
                 layers_clear
               </span>
-              <p className="text-lg font-headline text-outline">Nenhuma carta encontrada</p>
+              <p className="text-lg font-headline text-outline">
+                Nenhuma carta encontrada
+              </p>
               <p className="text-sm mt-2 text-on-surface-variant/60">
                 {cards.length === 0
                   ? 'Clique em "Nova Carta" para começar.'
@@ -220,8 +249,20 @@ export default function CartasPage() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-surface-container-lowest/50 text-on-surface-variant border-b border-outline-variant/20">
-                  {["ID", "Nome", "Classe", "Tipo", "Mana", "Ataque", "Defesa", "Ações"].map((h) => (
-                    <th key={h} className="px-6 py-4 text-[12px] uppercase font-bold text-center">
+                  {[
+                    "ID",
+                    "Nome",
+                    "Classe",
+                    "Tipo",
+                    "Mana",
+                    "Ataque",
+                    "Defesa",
+                    "Ações",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="px-6 py-4 text-[12px] uppercase font-bold text-center"
+                    >
                       {h}
                     </th>
                   ))}
@@ -230,7 +271,9 @@ export default function CartasPage() {
               <tbody className="divide-y divide-outline-variant/10">
                 {rows.map((card) => {
                   const color = CLASS_COLORS[card.cardClass] ?? "#d0c6b1";
-                  const copiesInDeck = deck.filter((id) => id === card.id).length;
+                  const copiesInDeck = deck.filter(
+                    (id) => id === card.id,
+                  ).length;
                   return (
                     <tr key={card.id} className="row-hover transition-colors">
                       <td className="px-6 py-5 text-sm font-mono text-on-surface-variant/70 text-center">
@@ -242,17 +285,28 @@ export default function CartasPage() {
                             className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0"
                             style={{ background: `${color}22` }}
                           >
-                            <span className="material-symbols-outlined text-base" style={{ color }}>
-                              {card.cardType === "Magia" ? "auto_fix_high" : "swords"}
+                            <span
+                              className="material-symbols-outlined text-base"
+                              style={{ color }}
+                            >
+                              {card.cardType === "Magia"
+                                ? "auto_fix_high"
+                                : "swords"}
                             </span>
                           </div>
-                          <span className="font-headline text-lg text-on-surface">{card.name}</span>
+                          <span className="font-headline text-lg text-on-surface">
+                            {card.name}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-5 text-center">
                         <span
                           className="px-3 py-1 text-[10px] font-bold uppercase rounded-full border"
-                          style={{ background: `${color}1a`, color, borderColor: `${color}33` }}
+                          style={{
+                            background: `${color}1a`,
+                            color,
+                            borderColor: `${color}33`,
+                          }}
                         >
                           {card.cardClass}
                         </span>
@@ -270,43 +324,73 @@ export default function CartasPage() {
                       </td>
                       <td className="px-6 py-5 text-center">
                         <div className="flex items-center justify-center gap-1 text-blue-400">
-                          <span className="material-symbols-outlined text-lg">water_drop</span>
-                          <span className="font-headline font-bold text-xl">{card.manaCost ?? 0}</span>
+                          <span className="material-symbols-outlined text-lg">
+                            water_drop
+                          </span>
+                          <span className="font-headline font-bold text-xl">
+                            {card.manaCost ?? 0}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-5 text-center">
                         <div className="flex items-center justify-center gap-1 text-primary">
-                          <span className="material-symbols-outlined text-lg">swords</span>
-                          <span className="font-headline font-bold text-xl">{card.attack}</span>
+                          <span className="material-symbols-outlined text-lg">
+                            swords
+                          </span>
+                          <span className="font-headline font-bold text-xl">
+                            {card.attack}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-5 text-center">
-                        <div className={`flex items-center justify-center gap-1 ${card.defense > 0 ? "text-on-tertiary-container" : "text-on-surface-variant/30"}`}>
-                          <span className="material-symbols-outlined text-lg">shield</span>
-                          <span className="font-headline font-bold text-xl">{card.defense}</span>
+                        <div
+                          className={`flex items-center justify-center gap-1 ${card.defense > 0 ? "text-on-tertiary-container" : "text-on-surface-variant/30"}`}
+                        >
+                          <span className="material-symbols-outlined text-lg">
+                            shield
+                          </span>
+                          <span className="font-headline font-bold text-xl">
+                            {card.defense}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex justify-center gap-3">
-                          <button
-                            onClick={() => addToDeck(card.id)}
-                            title={`Adicionar ao baralho (${copiesInDeck}/2)`}
-                            className={`p-2 transition-colors ${copiesInDeck >= 2 ? "text-blue-400/40 cursor-not-allowed" : "text-on-surface-variant hover:text-blue-400"}`}
-                            disabled={copiesInDeck >= 2}
+                          <Tooltip
+                            text={
+                              copiesInDeck >= 2
+                                ? "Limite de 2 cópias atingido"
+                                : `Adicionar ao baralho (${copiesInDeck}/2)`
+                            }
                           >
-                            <span className="material-symbols-outlined">library_add</span>
-                          </button>
+                            <button
+                              onClick={() => addToDeck(card.id)}
+                              className={`p-2 transition-colors ${copiesInDeck >= 2 ? "text-blue-400/40 cursor-not-allowed" : "text-on-surface-variant hover:text-blue-400"}`}
+                              disabled={copiesInDeck >= 2}
+                            >
+                              <span className="material-symbols-outlined">
+                                library_add
+                              </span>
+                            </button>
+                          </Tooltip>
                           <button
-                            onClick={() => { setEditingCard(card); setDialogOpen(true); }}
+                            onClick={() => {
+                              setEditingCard(card);
+                              setDialogOpen(true);
+                            }}
                             className="p-2 text-on-surface-variant hover:text-primary transition-colors"
                           >
-                            <span className="material-symbols-outlined">edit</span>
+                            <span className="material-symbols-outlined">
+                              edit
+                            </span>
                           </button>
                           <button
                             onClick={() => setDeletingCardId(card.id)}
                             className="p-2 text-on-surface-variant hover:text-error transition-colors"
                           >
-                            <span className="material-symbols-outlined">delete</span>
+                            <span className="material-symbols-outlined">
+                              delete
+                            </span>
                           </button>
                         </div>
                       </td>
@@ -342,7 +426,9 @@ export default function CartasPage() {
               </button>
               {pages.map((p, i) =>
                 p === "..." ? (
-                  <span key={`e${i}`} className="px-1">...</span>
+                  <span key={`e${i}`} className="px-1">
+                    ...
+                  </span>
                 ) : (
                   <button
                     key={p}
@@ -373,14 +459,20 @@ export default function CartasPage() {
         isOpen={dialogOpen}
         editCard={editingCard}
         onClose={() => setDialogOpen(false)}
-        onSave={(card) => { saveCard(card); setDialogOpen(false); }}
+        onSave={(card) => {
+          saveCard(card);
+          setDialogOpen(false);
+        }}
       />
 
       <ConfirmDialog
         isOpen={deletingCardId !== null}
         title="Deletar Carta"
         message="Tem certeza que deseja remover esta carta do grimório? Essa ação não pode ser desfeita."
-        onConfirm={() => { deleteCard(deletingCardId!); setDeletingCardId(null); }}
+        onConfirm={() => {
+          deleteCard(deletingCardId!);
+          setDeletingCardId(null);
+        }}
         onCancel={() => setDeletingCardId(null)}
       />
     </div>

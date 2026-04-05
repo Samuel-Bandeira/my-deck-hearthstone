@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { CLASS_COLORS } from "../components/card-dialog";
 import { useAppContext } from "./layout";
-import type { Route } from "./+types/baralho";
+import type { Route } from "./+types/deck";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Baralho — HearthStone Card Manager" }];
@@ -21,7 +21,9 @@ export default function BaralhoPage() {
   const uniqueDeckCards = Object.keys(deckCountById)
     .map((id) => cards.find((c) => c.id === id))
     .filter(Boolean)
-    .sort((a, b) => (a!.manaCost ?? 0) - (b!.manaCost ?? 0)) as NonNullable<(typeof cards)[number]>[];
+    .sort((a, b) => (a!.manaCost ?? 0) - (b!.manaCost ?? 0)) as NonNullable<
+    (typeof cards)[number]
+  >[];
 
   const totalMana = deck
     .map((id) => cards.find((c) => c.id === id))
@@ -68,7 +70,9 @@ export default function BaralhoPage() {
             >
               {deck.length}
             </h3>
-            <span className="text-on-surface-variant text-lg mb-1">/ {MAX_DECK_SIZE}</span>
+            <span className="text-on-surface-variant text-lg mb-1">
+              / {MAX_DECK_SIZE}
+            </span>
           </div>
         </div>
         <div className="glass-panel p-6 border-l-2 border-blue-500 shadow-xl">
@@ -81,7 +85,9 @@ export default function BaralhoPage() {
           <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">
             Cartas Únicas
           </p>
-          <h3 className="text-4xl font-headline text-secondary">{uniqueDeckCards.length}</h3>
+          <h3 className="text-4xl font-headline text-secondary">
+            {uniqueDeckCards.length}
+          </h3>
         </div>
       </div>
 
@@ -98,7 +104,9 @@ export default function BaralhoPage() {
               onClick={clearDeck}
               className="flex items-center gap-1 text-[10px] uppercase font-bold text-on-surface-variant hover:text-error transition-colors tracking-widest"
             >
-              <span className="material-symbols-outlined text-sm">delete_sweep</span>
+              <span className="material-symbols-outlined text-sm">
+                delete_sweep
+              </span>
               Limpar
             </button>
           </div>
@@ -118,34 +126,52 @@ export default function BaralhoPage() {
                   </span>
                 </div>
 
-                <div className="w-1 h-8 rounded-full shrink-0" style={{ background: color }} />
+                <div
+                  className="w-1 h-8 rounded-full shrink-0"
+                  style={{ background: color }}
+                />
 
                 <div
                   className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0"
                   style={{ background: `${color}22` }}
                 >
-                  <span className="material-symbols-outlined text-base" style={{ color }}>
+                  <span
+                    className="material-symbols-outlined text-base"
+                    style={{ color }}
+                  >
                     {card.cardType === "Magia" ? "auto_fix_high" : "swords"}
                   </span>
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <span className="font-headline text-base text-on-surface">{card.name}</span>
+                  <span className="font-headline text-base text-on-surface">
+                    {card.name}
+                  </span>
                   <span
                     className="ml-2 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border"
-                    style={{ background: `${color}1a`, color, borderColor: `${color}33` }}
+                    style={{
+                      background: `${color}1a`,
+                      color,
+                      borderColor: `${color}33`,
+                    }}
                   >
                     {card.cardClass}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1 text-primary shrink-0">
-                  <span className="material-symbols-outlined text-sm">swords</span>
+                  <span className="material-symbols-outlined text-sm">
+                    swords
+                  </span>
                   <span className="font-headline font-bold">{card.attack}</span>
                 </div>
                 <div className="flex items-center gap-1 text-on-tertiary-container shrink-0">
-                  <span className="material-symbols-outlined text-sm">shield</span>
-                  <span className="font-headline font-bold">{card.defense}</span>
+                  <span className="material-symbols-outlined text-sm">
+                    shield
+                  </span>
+                  <span className="font-headline font-bold">
+                    {card.defense}
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-1 shrink-0">

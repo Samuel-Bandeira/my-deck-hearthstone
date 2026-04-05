@@ -41,6 +41,12 @@ A aplicação estará disponível em `http://localhost:3000`.
 
 ## Rodando via Docker
 
+### Abrir Docker
+
+```bash
+open -a Docker
+```
+
 ### Build da imagem
 
 ```bash
@@ -59,9 +65,9 @@ A aplicação estará disponível em `http://localhost:3000`.
 
 ## Scripts disponíveis
 
-| Script | Descrição |
-|--------|-----------|
-| `npm run dev` | Inicia o servidor de desenvolvimento com HMR |
-| `npm run build` | Gera o build de produção |
-| `npm run start` | Inicia o servidor de produção |
-| `npm run typecheck` | Valida os tipos TypeScript |
+| Script              | Descrição                                    |
+| ------------------- | -------------------------------------------- |
+| `npm run dev`       | Inicia o servidor de desenvolvimento com HMR |
+| `npm run build`     | Gera o build de produção                     |
+| `npm run start`     | Inicia o servidor de produção                |
+| `npm run typecheck` | Valida os tipos TypeScript                   |

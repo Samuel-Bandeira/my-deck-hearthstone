@@ -158,33 +158,53 @@ export default function HomePage() {
               <label className="block text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2 font-bold">
                 Classe de Poder
               </label>
-              <select
-                value={filterClass}
-                onChange={(e) => setFilterClass(e.target.value)}
-                className="w-full bg-surface-container-low border-b border-outline-variant focus:border-primary text-sm py-2 px-0 transition-all appearance-none cursor-pointer outline-none text-on-surface"
-              >
-                <option value="">Qualquer</option>
-                {CLASSES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+              <div className="relative flex items-center">
+                <select
+                  value={filterClass}
+                  onChange={(e) => setFilterClass(e.target.value)}
+                  className="w-full bg-surface-container-low border-b border-outline-variant focus:border-primary text-sm py-2 px-0 transition-all appearance-none cursor-pointer outline-none text-on-surface pr-5"
+                >
+                  <option value="">Qualquer</option>
+                  {CLASSES.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+                {filterClass && (
+                  <button
+                    onClick={() => setFilterClass("")}
+                    className="absolute right-0 text-on-surface-variant/50 hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-base">close</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             <div>
               <label className="block text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2 font-bold">
                 Tipo de Entidade
               </label>
-              <select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                className="w-full bg-surface-container-low border-b border-outline-variant focus:border-primary text-sm py-2 px-0 transition-all appearance-none cursor-pointer outline-none text-on-surface"
-              >
-                <option value="">Todos</option>
-                <option value="Magia">Magia</option>
-                <option value="Criatura">Criatura</option>
-              </select>
+              <div className="relative flex items-center">
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="w-full bg-surface-container-low border-b border-outline-variant focus:border-primary text-sm py-2 px-0 transition-all appearance-none cursor-pointer outline-none text-on-surface pr-5"
+                >
+                  <option value="">Todos</option>
+                  <option value="Magia">Magia</option>
+                  <option value="Criatura">Criatura</option>
+                </select>
+                {filterType && (
+                  <button
+                    onClick={() => setFilterType("")}
+                    className="absolute right-0 text-on-surface-variant/50 hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-base">close</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 

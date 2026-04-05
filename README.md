@@ -2,7 +2,7 @@
 
 Gerenciador de cartas do HearthStone com suporte a criação, edição, exclusão e filtragem. Construído com React Router v7, TypeScript e TailwindCSS v4.
 
-## CRUD do Baralho:
+## CRUD de Cartas:
 
 ![alt text](image-3.png)
 

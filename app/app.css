@@ -1,15 +1,99 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Primary */
+  --color-primary: #e6c358;
+  --color-primary-container: #c9a840;
+  --color-primary-fixed: #ffe088;
+  --color-on-primary: #3c2f00;
+  --color-on-primary-fixed: #241a00;
+  --color-on-primary-container: #4e3e00;
+
+  /* Secondary */
+  --color-secondary: #ddb8ff;
+  --color-secondary-container: #7c03d3;
+  --color-on-secondary: #490080;
+  --color-on-secondary-container: #dfbcff;
+
+  /* Tertiary */
+  --color-tertiary: #f0c040;
+  --color-tertiary-container: #d2a525;
+  --color-on-tertiary: #3e2e00;
+  --color-on-tertiary-container: #513c00;
+
+  /* Surface */
+  --color-surface: #0f131f;
+  --color-surface-dim: #0f131f;
+  --color-surface-bright: #353946;
+  --color-surface-variant: #303442;
+  --color-surface-container-lowest: #0a0e1a;
+  --color-surface-container-low: #171b28;
+  --color-surface-container: #1b1f2c;
+  --color-surface-container-high: #262a37;
+  --color-surface-container-highest: #303442;
+  --color-on-surface: #dfe2f4;
+  --color-on-surface-variant: #d0c6b1;
+
+  /* Outline */
+  --color-outline: #99907d;
+  --color-outline-variant: #4d4636;
+
+  /* Error */
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+
+  /* Background */
+  --color-background: #0f131f;
+  --color-on-background: #dfe2f4;
+
+  /* Typography */
+  --font-headline: "Newsreader", serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Inter", sans-serif;
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+/* Material Symbols baseline */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+/* Custom utilities */
+@utility glass-panel {
+  background: rgba(27, 31, 44, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+@utility gold-gradient-btn {
+  background: linear-gradient(135deg, #e6c358 0%, #c9a840 100%);
+}
+
+@utility mana-gem {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: radial-gradient(circle at 30% 30%, #60a5fa, #1e40af);
+  box-shadow: 0 0 15px rgba(30, 64, 175, 0.6);
+}
+
+@utility card-frame {
+  background: linear-gradient(135deg, #262a37 0%, #0f131f 100%);
+  border: 8px solid #4d4636;
+}
+
+@utility row-hover {
+  &:hover {
+    background: rgba(230, 195, 88, 0.03);
+    box-shadow: inset 4px 0 0 #e6c358;
   }
 }
+
+html, body {
+  background-color: #0f131f;
+  min-height: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0f131f; }
+::-webkit-scrollbar-thumb { background: #4d4636; border-radius: 10px; }

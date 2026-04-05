@@ -2,6 +2,9 @@
 
 Gerenciador de cartas do HearthStone com suporte a criação, edição, exclusão e filtragem. Construído com React Router v7, TypeScript e TailwindCSS v4.
 
+![alt text](image.png)
+![alt text](image-1.png)
+
 ## Pré-requisitos
 
 - Node.js >= 22

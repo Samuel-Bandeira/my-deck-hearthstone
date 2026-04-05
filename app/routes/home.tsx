@@ -9,6 +9,9 @@ import ConfirmDialog from "../components/confirm-dialog";
 import { SEED_CARDS } from "../data/seeds";
 import type { Route } from "./+types/home";
 
+const MAX_DECK_SIZE = 30;
+const MAX_COPIES_PER_CARD = 2;
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "HearthStone Card Manager" },
@@ -20,6 +23,8 @@ const PER_PAGE = 10;
 
 export default function HomePage() {
   const [cards, setCards] = useState<Card[]>([]);
+  const [deck, setDeck] = useState<string[]>([]);
+  const [deckNotification, setDeckNotification] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [filterClass, setFilterClass] = useState("");
   const [filterType, setFilterType] = useState("");
@@ -39,11 +44,40 @@ export default function HomePage() {
         } else {
           setCards(SEED_CARDS);
         }
+        const savedDeck = localStorage.getItem("hs-deck");
+        if (savedDeck) setDeck(JSON.parse(savedDeck));
       } catch {}
       return;
     }
     localStorage.setItem("hs-cards", JSON.stringify(cards));
   }, [cards]);
+
+  useEffect(() => {
+    if (firstRender.current) return;
+    localStorage.setItem("hs-deck", JSON.stringify(deck));
+  }, [deck]);
+
+  function showDeckNotification(msg: string) {
+    setDeckNotification(msg);
+    setTimeout(() => setDeckNotification(null), 3000);
+  }
+
+  function addToDeck(cardId: string) {
+    if (deck.length >= MAX_DECK_SIZE) {
+      showDeckNotification(`Baralho cheio! Máximo de ${MAX_DECK_SIZE} cartas.`);
+      return;
+    }
+    const copies = deck.filter((id) => id === cardId).length;
+    if (copies >= MAX_COPIES_PER_CARD) {
+      showDeckNotification(`Já existem ${MAX_COPIES_PER_CARD} cópias desta carta no baralho.`);
+      return;
+    }
+    setDeck((prev) => [...prev, cardId]);
+  }
+
+  function removeFromDeck(index: number) {
+    setDeck((prev) => prev.filter((_, i) => i !== index));
+  }
 
   useEffect(() => {
     setPage(1);
@@ -220,7 +254,7 @@ export default function HomePage() {
           </button>
         </aside>
 
-        <main className="ml-70 flex-1 p-8">
+        <main className="ml-70 mr-72 flex-1 p-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div className="glass-panel p-6 border-l-2 border-primary shadow-xl group hover:scale-[1.02] transition-transform cursor-default">
               <div className="flex justify-between items-start">
@@ -300,6 +334,7 @@ export default function HomePage() {
                       "Nome",
                       "Classe",
                       "Tipo",
+                      "Mana",
                       "Ataque",
                       "Defesa",
                       "Ações",
@@ -365,6 +400,16 @@ export default function HomePage() {
                           </span>
                         </td>
                         <td className="px-6 py-5 text-center">
+                          <div className="flex items-center justify-center gap-1 text-blue-400">
+                            <span className="material-symbols-outlined text-lg">
+                              water_drop
+                            </span>
+                            <span className="font-headline font-bold text-xl">
+                              {card.manaCost ?? 0}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-5 text-center">
                           <div className="flex items-center justify-center gap-1 text-primary">
                             <span className="material-symbols-outlined text-lg">
                               swords
@@ -388,6 +433,15 @@ export default function HomePage() {
                         </td>
                         <td className="px-6 py-5">
                           <div className="flex justify-center gap-3">
+                            <button
+                              onClick={() => addToDeck(card.id)}
+                              title="Adicionar ao baralho"
+                              className="p-2 text-on-surface-variant hover:text-blue-400 transition-colors"
+                            >
+                              <span className="material-symbols-outlined">
+                                library_add
+                              </span>
+                            </button>
                             <button
                               onClick={() => {
                                 setEditingCard(card);
@@ -473,7 +527,94 @@ export default function HomePage() {
             </div>
           )}
         </main>
+
+        <aside className="fixed right-0 top-0 pt-20 flex flex-col h-screen w-72 bg-[#0f131f] border-l border-primary/10 shadow-2xl z-40">
+          <div className="flex flex-col h-full p-4 gap-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-primary">
+                <span className="material-symbols-outlined">stack</span>
+                <h2 className="font-headline text-xl font-bold uppercase tracking-tighter">
+                  Baralho
+                </h2>
+              </div>
+              <span
+                className={`text-xs font-bold px-2 py-1 rounded-full border ${
+                  deck.length >= MAX_DECK_SIZE
+                    ? "bg-red-500/20 text-red-400 border-red-500/40"
+                    : "bg-primary/10 text-primary border-primary/20"
+                }`}
+              >
+                {deck.length}/{MAX_DECK_SIZE}
+              </span>
+            </div>
+
+            {deck.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center text-center gap-3">
+                <span
+                  className="material-symbols-outlined text-outline/30"
+                  style={{ fontSize: "48px" }}
+                >
+                  style
+                </span>
+                <p className="text-sm text-on-surface-variant/50">
+                  Adicione cartas ao baralho usando o botão{" "}
+                  <span className="material-symbols-outlined text-sm align-middle">library_add</span>
+                </p>
+              </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto space-y-1 pr-1">
+                {deck.map((cardId, index) => {
+                  const card = cards.find((c) => c.id === cardId);
+                  if (!card) return null;
+                  const color = CLASS_COLORS[card.cardClass] ?? "#d0c6b1";
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 group"
+                    >
+                      <div
+                        className="w-6 h-6 rounded flex items-center justify-center shrink-0 text-xs font-bold text-white"
+                        style={{ background: "#1e3a5f" }}
+                      >
+                        {card.manaCost ?? 0}
+                      </div>
+                      <div
+                        className="w-1 h-6 rounded-full shrink-0"
+                        style={{ background: color }}
+                      />
+                      <span className="text-sm text-on-surface truncate flex-1">
+                        {card.name}
+                      </span>
+                      <button
+                        onClick={() => removeFromDeck(index)}
+                        className="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-all"
+                      >
+                        <span className="material-symbols-outlined text-sm">close</span>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {deck.length > 0 && (
+              <button
+                onClick={() => setDeck([])}
+                className="border border-outline-variant/30 text-on-surface-variant text-[10px] uppercase font-bold py-2 hover:bg-white/5 hover:text-error transition-all tracking-[0.2em]"
+              >
+                Limpar Baralho
+              </button>
+            )}
+          </div>
+        </aside>
       </div>
+
+      {deckNotification && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] bg-surface-container border border-error/40 text-error px-6 py-3 rounded-lg shadow-xl text-sm font-bold flex items-center gap-2">
+          <span className="material-symbols-outlined text-base">warning</span>
+          {deckNotification}
+        </div>
+      )}
 
       <CardDialog
         isOpen={dialogOpen}

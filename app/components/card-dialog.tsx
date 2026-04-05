@@ -6,12 +6,7 @@ export const CLASSES = [
   "Paladino",
   "Caçador",
   "Druida",
-  "Guerreiro",
-  "Xamã",
-  "Ladino",
-  "Sacerdote",
-  "Bruxo",
-  "Neutro",
+  "Qualquer",
 ] as const;
 
 export type CardClass = (typeof CLASSES)[number];
@@ -23,6 +18,7 @@ export interface Card {
   description: string;
   cardClass: CardClass;
   cardType: CardType;
+  manaCost: number;
   attack: number;
   defense: number;
 }
@@ -32,12 +28,7 @@ export const CLASS_COLORS: Record<CardClass, string> = {
   Paladino: "#eab308",
   Caçador: "#22c55e",
   Druida: "#a16207",
-  Guerreiro: "#ef4444",
-  Xamã: "#3b82f6",
-  Ladino: "#6b7280",
-  Sacerdote: "#e5e7eb",
-  Bruxo: "#8b5cf6",
-  Neutro: "#d0c6b1",
+  Qualquer: "#d0c6b1",
 };
 
 interface CardDialogProps {
@@ -52,9 +43,10 @@ interface StatStepperProps {
   label: string;
   value: number;
   onChange: (v: number) => void;
+  max?: number;
 }
 
-function StatStepper({ icon, label, value, onChange }: StatStepperProps) {
+function StatStepper({ icon, label, value, onChange, max = 12 }: StatStepperProps) {
   return (
     <div className="space-y-3">
       <label className="font-label text-xs uppercase text-on-surface-variant tracking-tighter flex items-center gap-2">
@@ -74,7 +66,7 @@ function StatStepper({ icon, label, value, onChange }: StatStepperProps) {
         </span>
         <button
           type="button"
-          onClick={() => onChange(Math.min(12, value + 1))}
+          onClick={() => onChange(Math.min(max, value + 1))}
           className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 text-primary transition-colors"
         >
           <span className="material-symbols-outlined">add</span>
@@ -89,6 +81,7 @@ function CardPreview({
   description,
   cardClass,
   cardType,
+  manaCost,
   attack,
   defense,
 }: Omit<Card, "id">) {
@@ -112,7 +105,7 @@ function CardPreview({
           <div className="absolute top-2 left-2 w-12 h-12 z-20 flex items-center justify-center">
             <div className="mana-gem w-full h-full absolute" />
             <span className="relative z-30 font-headline font-bold text-2xl text-white drop-shadow-md">
-              {attack}
+              {manaCost}
             </span>
           </div>
           <div
@@ -200,6 +193,7 @@ export default function CardDialog({
   const [description, setDescription] = useState("");
   const [cardClass, setCardClass] = useState<CardClass>("Mago");
   const [cardType, setCardType] = useState<CardType>("Criatura");
+  const [manaCost, setManaCost] = useState(1);
   const [attack, setAttack] = useState(1);
   const [defense, setDefense] = useState(1);
 
@@ -210,13 +204,15 @@ export default function CardDialog({
       setDescription(editCard.description);
       setCardClass(editCard.cardClass);
       setCardType(editCard.cardType);
+      setManaCost(editCard.manaCost ?? 1);
       setAttack(editCard.attack);
       setDefense(editCard.defense);
     } else {
       setName("");
       setDescription("");
-      setCardClass("Mago");
+      setCardClass("Qualquer");
       setCardType("Criatura");
+      setManaCost(1);
       setAttack(1);
       setDefense(1);
     }
@@ -232,6 +228,7 @@ export default function CardDialog({
       description: description.trim(),
       cardClass,
       cardType,
+      manaCost,
       attack,
       defense,
     });
@@ -324,18 +321,29 @@ export default function CardDialog({
                 </div>
               </div>
             </div>
+            <div className="pt-4">
+              <StatStepper
+                icon="water_drop"
+                label="Custo de Mana"
+                value={manaCost}
+                onChange={setManaCost}
+                max={10}
+              />
+            </div>
             <div className="grid grid-cols-2 gap-6 pt-4">
               <StatStepper
                 icon="swords"
                 label="Poder de Ataque"
                 value={attack}
                 onChange={setAttack}
+                max={10}
               />
               <StatStepper
                 icon="shield"
                 label="Resistência"
                 value={defense}
                 onChange={setDefense}
+                max={10}
               />
             </div>
           </div>
@@ -362,6 +370,7 @@ export default function CardDialog({
           description={description}
           cardClass={cardClass}
           cardType={cardType}
+          manaCost={manaCost}
           attack={attack}
           defense={defense}
         />

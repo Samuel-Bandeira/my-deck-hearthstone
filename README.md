@@ -10,6 +10,29 @@ Gerenciador de cartas do HearthStone com suporte a criação, edição, exclusã
 
 ![alt text](image-4.png)
 
+## Utilização:
+
+O projeto é composto por duas abas: **Cartas** e **Baralhos**. Na aba Cartas, é possível adicionar novas cartas ao banco de dados mantido no local storage. Na aba Baralhos, é possível gerenciar quais cartas fazem parte do baralho atual. A partir da tela de Cartas, é possível adicioná-las ao baralho; já na tela de Baralhos, é possível visualizá-las e gerar duplicatas clicando em:
+
+![alt text](image-5.png)
+
+## Requisitos Funcionais do projeto:
+
+| ID   | Requisito Funcional                               | Detalhes                                                                 |
+| ---- | ------------------------------------------------- | ------------------------------------------------------------------------ |
+| RF01 | Cadastro de cartas                                | Permitir incluir novas cartas com todos os campos do modelo              |
+| RF02 | Consulta de cartas                                | Filtrar cartas por id, nome, classe e tipo                               |
+| RF03 | Edição de cartas                                  | Permitir alterar os dados de uma carta existente                         |
+| RF04 | Exclusão de cartas                                | Permitir remover uma carta do banco de dados                             |
+| RF05 | Persistência em localStorage                      | Todos os dados devem ser armazenados no localStorage do navegador        |
+| RF06 | Montagem de baralho                               | Permitir ao jogador montar um baralho com até 30 cartas                  |
+| RF07 | Restrição de classe no baralho                    | O baralho só pode conter cartas da classe do jogador ou do tipo Qualquer |
+| RF08 | Limite de duplicatas no baralho                   | Permitir no máximo 2 cópias da mesma carta no baralho                    |
+| RF09 | Modelo de carta com atributos obrigatórios        | Toda carta deve ter: id, nome, descrição, ataque, defesa, tipo e classe  |
+| RF10 | Suporte aos tipos de carta                        | Sistema deve suportar os tipos Magia e Criatura                          |
+| RF11 | Suporte às classes                                | Sistema deve suportar: Mago, Paladino, Caçador, Druida e Qualquer        |
+| RF12 | Atributos numéricos dentro do intervalo permitido | Ataque e Defesa devem aceitar valores inteiros de 0 a 10                 |
+
 ## Pré-requisitos
 
 - Node.js >= 22

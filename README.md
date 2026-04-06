@@ -2,19 +2,31 @@
 
 Gerenciador de cartas do HearthStone com suporte a criação, edição, exclusão e filtragem. Construído com React Router v7, TypeScript e TailwindCSS v4.
 
-## CRUD de Cartas:
+## Telas e Formulários
 
-![alt text](image-3.png)
+### CRUD de Cartas
 
-## Controle de Cartas no Baralho:
+![CRUD de Cartas](image-3.png)
 
-![alt text](image-4.png)
+### Cadastro/Edição de Novas Cartas
+
+![alt text](image-8.png)
+
+### Controle de Cartas no Baralho
+
+![Controle de Cartas no Baralho](image-4.png)
 
 ## Utilização:
 
-O projeto é composto por duas abas: **Cartas** e **Baralhos**. Na aba Cartas, é possível adicionar novas cartas ao banco de dados mantido no local storage. Na aba Baralhos, é possível gerenciar quais cartas fazem parte do baralho atual. A partir da tela de Cartas, é possível adicioná-las ao baralho; já na tela de Baralhos, é possível visualizá-las e gerar duplicatas clicando em:
+O projeto é composto por duas abas: **Cartas** e **Baralhos**.
 
-![alt text](image-5.png)
+Na aba **Cartas**, é possível cadastrar, editar e excluir cartas do banco de dados mantido no localStorage. Também é possível adicioná-las ao baralho diretamente pela tabela, clicando no botão **Adicionar ao Baralho** presente na coluna de ações:
+
+![Botão Adicionar ao Baralho](image-7.png)
+
+Na aba **Baralhos**, é possível gerenciar as cartas do baralho atual — visualizá-las e gerar duplicatas clicando em:
+
+![Botão de duplicata](image-5.png)
 
 ## Requisitos Funcionais do projeto:
 
